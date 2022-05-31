@@ -1,0 +1,110 @@
+\documentclass{beamer}
+\usetheme{CambridgeUS}
+
+
+
+\usepackage{enumitem}
+\usepackage{tfrupee}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{graphicx}
+\usepackage{txfonts}
+
+\def\inputGnumericTable{}
+
+\usepackage[latin1]{inputenc}                                 
+\usepackage{color}                                            
+\usepackage{array}                                            
+\usepackage{longtable}                                        
+\usepackage{calc}                                             
+\usepackage{multirow}                                         
+\usepackage{hhline}                                           
+\usepackage{ifthen}
+\usepackage{caption} 
+\captionsetup[table]{skip=3pt}  
+\providecommand{\pr}[1]{\ensuremath{\Pr\left(#1\right)}}
+\providecommand{\cbrak}[1]{\ensuremath{\left\{#1\right\}}}
+\renewcommand{\thefigure}{\arabic{table}}
+\renewcommand{\thetable}{\arabic{table}}                                     
+
+\title{AI1110 \\ Assignment 10}
+\author{MANIKANTA UPPULAPU \\ (BT05)}
+\date{\today}
+
+
+\begin{document}
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	\begin{frame}{Outline}
+		\tableofcontents
+	\end{frame}
+	\section{Question}
+	\begin{frame}{Problem Statement}
+	\begin{block}
+{Question:}	 Let x and y be independent gamma random variables with parameters (\alpha_1,\beta) and (\alpha_2,\beta) respectively\\
+(a) Determine the p.d.f.s of the random variables x + y and $\frac{x}{x+y}$\\
+(b) Show that x + y and $\frac{x}{y}$ are independent random variables\\
+(c) Show that x + y and $\frac{x}{x+y}$ are independent gamma and beta random variables, respectively.
+\end{block}
+\end{frame}
+	\section{Solution}
+	\begin{frame}{Solution}
+(a) let z = x + y and w = $\frac{x}{x+y}$\\
+f_{xy}(x,y) = f_x(x) f_y(y) = $$ \frac{1}{\alpha ^{\alpha_1+\alpha_2}\Gamma_{(\alpha_1)}\Gamma_{(\alpha_2)}}x^{\alpha_1-1}y^{\alpha_2-1}e^{\frac{-(x+y)}{\beta}}$$  &  x>0, y>0\\
+note that $0<z<1$, since x and y are non-negative random variables 
+\begin{align}
+F_z(Z) &= P(z\leq Z) = P\left(\frac{x}{x+y} \leq z\right) = P\left(x \leq y\frac{z}{1-z}\right)\\
+&=\int_{0}^{\infty} \int_{0}^{\frac{yz}{1-z}} f_{xy}(x,y)dx.dy
+\end{align}
+differentiation with respect to z gives
+\begin{align}
+f_z(Z) &= \int_{0}^{\infty} \frac{y}{(1-z)^{2}} f_{xy}\left(\frac{yz}{1-z},y\right)dy
+\end{align}
+\end{frame}
+
+\begin{frame}{Solution}
+\begin{align}
+&= \int_{0}^{\infty} \frac{y}{(1-z)^{2}} \frac{1}{\alpha ^{\alpha_1+\alpha_2}\Gamma_{(\alpha_1)}\Gamma_{(\alpha_2)}}\left(\frac{yz}{1-z}\right)^{\alpha_1-1} y^{\alpha_2-1} e^{\frac{-y}{(1-z)\alpha}}dy\\
+&=  \frac{1}{\alpha ^{\alpha_1+\alpha_2}\Gamma_{(\alpha_1)}\Gamma_{(\alpha_2)}} \frac{z^{\alpha_1-1}}{(1-z)^{\alpha_1+1}} \int_{0}^{\infty} y^{\alpha_1+\alpha_2-1} e^{\frac{-y}{\alpha(1-z)}}dy\\
+&= \frac{z^{\alpha_1-1}(1-z)^{\alpha_2-1}}{\Gamma_{(\alpha_1)}\Gamma_{(\alpha_2)}}\int_{0}^{\infty} u^{\alpha_1+\alpha_2-1}e^{-u}du\\
+&=\frac{\Gamma_{(\alpha_1+\alpha_2)}}{\Gamma_{(\alpha_1)}\Gamma_{(\alpha_2)}}z^{\alpha_1-1} (1-z)^{\alpha_2-1}\\
+&= \begin{cases} \frac{1}{\beta (\alpha_1,\alpha_2)}z^{\alpha_1-1}(1-z)^{\alpha_2-1} & 0<z<1\\
+                 0 & \text{otherwise}
+                 \end{cases}
+\end{align}
+\end{frame}
+\begin{frame}{Solution}
+    (b) let z = x + y and w = $\frac{x}{y}$\\
+     also, let x_1 =\frac{zw}{1+w} , y_1 = \frac{z}{1+w}\\
+     \begin{align}
+J &= \begin{vmatrix}
+ 1 & 1 \\
+ \frac{1}{y} & \frac{-x}{y^2}
+ \end{vmatrix}
+ = - \frac{x+y}{y^2}= - \frac{(1+w)^2}{z}\\
+ f_{zw}(z,w) &= \frac{1}{\alpha^{\alpha_1+\alpha_2}\Gamma_{(\alpha_1)}\Gamma_{(\alpha_2)}}\frac{z}{(1+w)^2}\left(\frac{zw}{1+w}\right)^{\alpha_1-1}\left(\frac{z}{1+w}\right)^{\alpha_2-1}e^{-\frac{z}{\alpha}}\\
+ &=\frac{1}{\alpha^{\alpha_1+\alpha_2}}\frac{z^{\alpha_1+\alpha_2-1}}{\Gamma_{(\alpha_1)}\Gamma_{(\alpha_2)}}e^{-\frac{z}{\alpha}}\frac{w^{\alpha_1-1}}{(1+w)^{\alpha_1+\alpha_2}}\\
+ &=\left(\frac{z^{\alpha_1+\alpha_2-1}}{\alpha^{\alpha_1+\alpha_2}\Gamma_{(\alpha_1+\alpha_2)}}e^{-\frac{z}{\alpha}}\right)\left(\frac{\Gamma_{(\alpha_1+\alpha_2)}}{\Gamma_{(\alpha_1)}\Gamma_{(\alpha_2)}}\frac{w^{\alpha_1-1}}{(1+w)^{\alpha_1+\alpha_2}}\right)\\
+ &=f_z(Z)f_w(W) 
+ \end{align}
+ Thus Z and W are independent random variables
+\end{frame}
+\begin{frame}{Solution}
+(c) let z = x + y and w = $\frac{x}{x+y}$\\
+also, let x_1 = zw , y_1 = z-x_1 = z(1-w)\\
+\begin{align}
+J &= \begin{vmatrix}
+ 1 & 1 \\
+ \frac{y}{(x+y)^2} & \frac{-x}{(x+y)^2}
+ \end{vmatrix}
+  = \frac{1}{x+y} = \frac{1}{z}\\
+   f_{zw}(z,w) &= \frac{z}{\alpha^{\alpha_1+\alpha_2}\Gamma_{(\alpha_1)}\Gamma_{(\alpha_2)}}(zw)^{\alpha_1-1}\{z(1-w)\}^{\alpha_2-1}\\
+  f_{zw}(z,w) &= \left(\frac{z}{\alpha^{\alpha_1+\alpha_2}\Gamma_{(\alpha + \beta)}}e^{\frac{-z}{\alpha}}\right)\left(\frac{\Gamma_{(\alpha_1+\alpha_2)}}{\Gamma_{(\alpha_1)} \Gamma_{(\alpha_2)}}w^{\alpha_1-1}(1-w)^{\alpha_2-1}\right)\\
+  &= f_Z(z) f_W(w)
+ \end{align}
+ Thus Z and W are independent random variables.
+\end{frame}
+
+\end{document}
